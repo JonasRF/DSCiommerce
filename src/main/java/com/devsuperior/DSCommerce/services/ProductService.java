@@ -3,9 +3,9 @@ package com.devsuperior.DSCommerce.services;
 import com.devsuperior.DSCommerce.DTO.ProductDTO;
 import com.devsuperior.DSCommerce.entities.Product;
 import com.devsuperior.DSCommerce.repositories.ProductRepository;
-import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +17,12 @@ public class ProductService {
 
     @Autowired
     private ProductRepository repository;
+
+    @Transactional(readOnly = true)
+    public Page<ProductDTO> findAll(Pageable pageable) {
+        Page<Product> result = repository.findAll(pageable);
+        return result.map(x -> new ProductDTO(x));
+    }
 
     @Transactional(readOnly = true)
     public ProductDTO FindById(Long id){
