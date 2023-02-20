@@ -1,7 +1,9 @@
 package com.devsuperior.DSCommerce.services;
 
 import com.devsuperior.DSCommerce.DTO.ProductDTO;
+import com.devsuperior.DSCommerce.entities.Category;
 import com.devsuperior.DSCommerce.entities.Product;
+import com.devsuperior.DSCommerce.repositories.CategoryRepository;
 import com.devsuperior.DSCommerce.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,9 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable) {
         Page<Product> result = repository.findAll(pageable);
@@ -28,6 +33,18 @@ public class ProductService {
     public ProductDTO FindById(Long id){
        Optional<Product> obj =  repository.findById(id);
        Product entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found!"));
+        return new ProductDTO(entity);
+    }
+    @Transactional
+    public ProductDTO insert(ProductDTO dto) {
+
+        Product entity = new Product();
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setImgUrl(dto.getImgUrl());
+
+        entity = repository.save(entity);
         return new ProductDTO(entity);
     }
 }

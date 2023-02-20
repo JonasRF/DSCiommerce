@@ -2,25 +2,23 @@ package com.devsuperior.DSCommerce.DTO;
 
 import com.devsuperior.DSCommerce.entities.Product;
 
-import javax.persistence.Column;
-
 public class ProductDTO {
 
     private Long id;
     private String name;
     private String description;
     private Double price;
-    private String img_url;
+    private String imgUrl;
 
     public ProductDTO(){
     }
 
-    public ProductDTO(Long id, String name, String description, Double price, String img_url) {
+    public ProductDTO(Long id, String name, String description, Double price, String imgUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.img_url = img_url;
+        this.imgUrl = imgUrl;
     }
 
     public ProductDTO(Product entity) {
@@ -28,7 +26,7 @@ public class ProductDTO {
         name = entity.getName();
         description = entity.getDescription();
         price = entity.getPrice();
-        img_url = entity.getImg_url();
+        imgUrl = entity.getImgUrl();
     }
 
     public Long getId() {
@@ -47,7 +45,7 @@ public class ProductDTO {
         return price;
     }
 
-    public String getImg_url() {
-        return img_url;
+    public String getImgUrl() {
+        return imgUrl;
     }
 }
