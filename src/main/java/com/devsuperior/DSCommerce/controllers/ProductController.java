@@ -28,8 +28,8 @@ public class ProductController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-       ProductDTO dto = service.FindById(id);
-        return ResponseEntity.ok().body(dto);
+            ProductDTO dto = service.FindById(id);
+            return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
@@ -50,5 +50,4 @@ public class ProductController {
          service.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }
