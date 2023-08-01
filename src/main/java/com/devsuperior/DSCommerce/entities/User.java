@@ -2,8 +2,7 @@ package com.devsuperior.DSCommerce.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_user")
@@ -17,6 +16,12 @@ public class User {
     private String phone;
     private LocalDate birthDate;
     private String password;
+
+    @ManyToMany
+    @JoinTable(name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "client")
     List<Order> orders = new ArrayList<>();
@@ -84,4 +89,31 @@ public class User {
     public List<Order> getOrders() {
         return orders;
     }
+
+    public void addRole(Role role){
+        roles.add(role);
+    }
+
+    public boolean hasRole(String roleName){
+        for (Role role : roles){
+           if(role.getAuthority().equals(roleName)){
+               return true;
+           }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
+
+
