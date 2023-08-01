@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -29,8 +30,8 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        Page<Product> result = repository.findAll(pageable);
+    public Page<ProductDTO> findByName(String name, Pageable pageable) {
+        Page<Product> result = repository.searchByName(name, pageable);
         return result.map(x -> new ProductDTO(x));
     }
 

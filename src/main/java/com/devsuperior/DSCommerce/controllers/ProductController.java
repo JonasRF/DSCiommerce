@@ -23,8 +23,10 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
-        Page<ProductDTO> list = service.findAll(pageable);
+    public ResponseEntity<Page<ProductDTO>> findByName(
+            @RequestParam(name = "name", defaultValue = "") String name,
+            Pageable pageable) {
+        Page<ProductDTO> list = service.findByName(name, pageable);
         return ResponseEntity.ok().body(list);
     }
 
