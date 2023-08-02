@@ -3,8 +3,8 @@ package com.devsuperior.DSCommerce.DTO;
 import com.devsuperior.DSCommerce.entities.Order;
 import com.devsuperior.DSCommerce.entities.OrderItem;
 import com.devsuperior.DSCommerce.entities.OrderStatus;
+import jakarta.validation.constraints.NotEmpty;
 
-import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
