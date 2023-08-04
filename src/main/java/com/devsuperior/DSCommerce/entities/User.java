@@ -93,6 +93,10 @@ public class User implements UserDetails {
         return orders;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
     public void addRole(Role role) {
         roles.add(role);
     }
@@ -121,7 +125,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override
@@ -131,22 +135,22 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
 }
