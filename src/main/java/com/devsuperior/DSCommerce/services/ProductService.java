@@ -1,6 +1,8 @@
 package com.devsuperior.DSCommerce.services;
 
+import com.devsuperior.DSCommerce.DTO.CategoryDTO;
 import com.devsuperior.DSCommerce.DTO.ProductDTO;
+import com.devsuperior.DSCommerce.DTO.ProductMinDTO;
 import com.devsuperior.DSCommerce.entities.Category;
 import com.devsuperior.DSCommerce.entities.Product;
 import com.devsuperior.DSCommerce.repositories.CategoryRepository;
@@ -29,9 +31,9 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findByName( String name, Pageable pageable) {
+    public Page<ProductMinDTO> findAll( String name, Pageable pageable) {
         Page<Product> result = repository.searchByName(name, pageable);
-        return result.map(x -> new ProductDTO(x));
+        return result.map(x -> new ProductMinDTO(x));
     }
 
     @Transactional(readOnly = true)
@@ -75,11 +77,17 @@ public class ProductService {
             throw new DataBaseException("Falha de integridade referencial!");
         }
     }
-
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgUrl());
+
+        entity.getCategories().clear();
+        for(CategoryDTO catDTO : dto.getCategories()){
+            Category cat = new Category();
+            cat.setId(catDTO.getId());
+            entity.getCategories().add(cat);
+        }
     }
 }

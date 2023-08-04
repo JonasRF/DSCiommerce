@@ -2,6 +2,7 @@ package com.devsuperior.DSCommerce.controllers;
 
 import com.devsuperior.DSCommerce.DTO.ProductDTO;
 
+import com.devsuperior.DSCommerce.DTO.ProductMinDTO;
 import com.devsuperior.DSCommerce.DTO.UserDTO;
 import com.devsuperior.DSCommerce.services.ProductService;
 import jakarta.validation.Valid;
@@ -25,10 +26,10 @@ public class ProductController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAll(
+    public ResponseEntity<Page<ProductMinDTO>> findAll(
             @RequestParam(name = "name", defaultValue = "") String name,
             Pageable pageable) {
-        Page<ProductDTO> list = service.findByName(name, pageable);
+        Page<ProductMinDTO> list = service.findAll(name, pageable);
         return ResponseEntity.ok().body(list);
     }
 
