@@ -37,8 +37,7 @@ public class OrderDTO {
         this.client = new ClientDTO(entity.getClient());
         this.payment = (entity.getPayment() == null) ? null : new PaymentDTO(entity.getPayment());
         for (OrderItem item : entity.getItems()) {
-            OrderItemDTO itemDto = new OrderItemDTO(item);
-            items.add(itemDto);
+            items.add(new OrderItemDTO(item));
         }
     }
 
