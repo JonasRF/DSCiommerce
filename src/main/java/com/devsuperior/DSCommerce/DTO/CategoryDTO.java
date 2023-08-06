@@ -2,6 +2,8 @@ package com.devsuperior.DSCommerce.DTO;
 
 import com.devsuperior.DSCommerce.entities.Category;
 
+import java.util.List;
+
 public class CategoryDTO {
 
     private Long id;
