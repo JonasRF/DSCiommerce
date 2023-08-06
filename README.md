@@ -1,13 +1,18 @@
 # DSCommerce
 
 DESAFIO: Projeto Spring Boot estruturado
+
 Forma de entrega: link do projeto no seu Github
+
 Você deverá entregar o projeto DSCommerce estruturado e com todas funcionalidades implementadas
 conforme as aulas.
+
 O projeto deve ser implementado com Java e Spring Boot, usando banco de dados H2, conforme aulas.
 Para atestar que você implementou gradualmente o projeto, será exigido que seu projeto no Github tenha pelo
 menos 12 commits no seu usuário do Github.
+
 Critérios de correção
+
 1. Mínimo 12 commits no projeto no usuário do aluno (eliminatório)
 2. Endpoints públicos GET /produts e GET /products/{id} funcionam sem necessidade de login (eliminatório)
 3. Endpoint de login funcionando e retornando o token de acesso (eliminatório)
