@@ -2,7 +2,6 @@ package com.devsuperior.DSCommerce.config;
 
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -26,9 +25,6 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class ResourceServerConfig {
-
-	@Value("${cors.origins}")
-	private String corsOrigins;
 
 	@Bean
 	@Profile("test")
@@ -65,10 +61,7 @@ public class ResourceServerConfig {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 
-		String[] origins = corsOrigins.split(",");
-
 		CorsConfiguration corsConfig = new CorsConfiguration();
-		corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
 		corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
 		corsConfig.setAllowCredentials(true);
 		corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
