@@ -3,10 +3,13 @@ package com.devsuperior.DSCommerce.services;
 import com.devsuperior.DSCommerce.DTO.CategoryDTO;
 import com.devsuperior.DSCommerce.DTO.ProductDTO;
 import com.devsuperior.DSCommerce.DTO.ProductMinDTO;
+import com.devsuperior.DSCommerce.config.ImageUtils;
 import com.devsuperior.DSCommerce.entities.Category;
+import com.devsuperior.DSCommerce.entities.ImageData;
 import com.devsuperior.DSCommerce.entities.Product;
 import com.devsuperior.DSCommerce.repositories.CategoryRepository;
 import com.devsuperior.DSCommerce.repositories.ProductRepository;
+import com.devsuperior.DSCommerce.repositories.StorageRepository;
 import com.devsuperior.DSCommerce.services.exceptions.DataBaseException;
 import com.devsuperior.DSCommerce.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
@@ -18,7 +21,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -29,6 +34,9 @@ public class ProductService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private StorageRepository storageRepository;
 
     @Transactional(readOnly = true)
     public Page<ProductMinDTO> findAll( String name, Pageable pageable) {
@@ -91,4 +99,25 @@ public class ProductService {
             entity.getCategories().add(cat);
         }
     }
+
+    public String uploadImage(MultipartFile file) throws IOException {
+        ImageData imageData = storageRepository.save(ImageData.builder()
+
+                .name(file.getOriginalFilename())
+                .type(file.getContentType())
+                .imageData(ImageUtils.compressImage(file.getBytes())).build());
+
+        if(imageData != null){
+            return "File uploaded successfully -> " + file.getOriginalFilename();
+        }
+        return null;
+    }
+
+    public byte[] downloadImage(String fileName){
+        Optional<ImageData> dbImageData = storageRepository.findByName(fileName);
+        byte[] images = ImageUtils.decompressImage(dbImageData.get().getImageData());
+        return images;
+    }
+
+
 }

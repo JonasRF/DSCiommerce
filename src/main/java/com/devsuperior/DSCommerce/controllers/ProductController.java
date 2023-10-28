@@ -3,16 +3,18 @@ package com.devsuperior.DSCommerce.controllers;
 import com.devsuperior.DSCommerce.DTO.ProductDTO;
 
 import com.devsuperior.DSCommerce.DTO.ProductMinDTO;
-import com.devsuperior.DSCommerce.DTO.UserDTO;
 import com.devsuperior.DSCommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -58,5 +60,20 @@ public class ProductController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
          service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping(value = "/files")
+    public ResponseEntity<?> uploadImage(@RequestParam(name = "image") MultipartFile file) throws Exception {
+        String uploadImage = service.uploadImage(file);
+        return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
+    }
+
+    @GetMapping(value = "/download/{fileName}")
+    public ResponseEntity<?> downloadImage(@PathVariable String fileName){
+        byte[] imageData = service.downloadImage(fileName);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
     }
 }
